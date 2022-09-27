@@ -1,0 +1,45 @@
+#EXTM3U8
+
+import m3u8
+
+playlist = m3u8.load('http://free.fullspeed.tv/iptv-query?streaming-ip=https://youtube.com/c/CNNbrasil/live')
+print(playlist.dumps())
+
+# if you want to write a file from its content
+
+playlist.dump('playlist.m3u8')
+
+import m3u8
+
+playlist = m3u8.load('http://free.fullspeed.tv/iptv-query?streaming-ip=https://youtube.com/c/CNNbrasil/live')  # this could also be an absolute filename
+print(playlist.segments)
+print(playlist.target_duration)
+
+# if you already have the content as string, use
+
+playlist = m3u8.loads('#EXTM3U8 ... etc ... ')
+
+import m3u8
+
+m3u8_obj = m3u8.loads('#EXTM3U8 ... etc ...')
+len(m3u8_obj.keys)  # => returns the number of keys available in the list (normally 1)
+for key in m3u8_obj.keys:
+   if key:  # First one could be None
+      key.uri
+      key.method
+      key.iv
+
+import m3u8
+
+m3u8_obj = m3u8.loads('#EXTM3U8 ... etc ...')
+segmk1 = m3u8_obj.segments.by_key(None)
+
+# Get the list of segments encrypted using last key
+segm = m3u8_obj.segments.by_key( m3u8_obj.keys[-1] )
+
+variant_m3u8 = m3u8.loads('#EXTM3U8 ... contains a variant stream ...')
+variant_m3u8.is_variant    # in this case will be True
+
+for playlist in variant_m3u8.playlists:
+    playlist.uri
+    playlist.stream_info.bandwidth
